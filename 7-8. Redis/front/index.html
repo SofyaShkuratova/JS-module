@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Redis</title>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1,h2{
+            display: inline;
+            font-family: 'Roboto';
+        }
+        button{
+            background: transparent;
+            border: 3px black solid;
+            font-family: 'Roboto';
+            font-weight: bold;
+            font-size: 24px;
+            border-radius: 15px;
+            padding: 10px;
+        }
+
+        button:hover{
+            background: black;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div style="display: flex; align-items: center; justify-content: space-between; width: 95vw; height: 80vh;">
+        <h1>Партия сериалов: <h2 class="serial">0</h2></h1>
+        <h1>Партия фильмов: <h2 class="movie">0</h2></h1>
+        <h1>Партия книг: <h2 class="book">Блокировка</h2></h1>
+    </div>
+    <div style="display: flex; align-items: center; justify-content: space-between; width: 90vw;">
+        <button data-value="serial" onclick="addVoid(this)">Проголосовать за сериалы</button>
+        <button data-value="movie" onclick="addVoid(this)">Проголосовать за фильмы</button>
+        <button data-value="book" onclick="addVoid(this)">Проголосовать за книги</button>
+    </div>
+    <script>
+        start();
+        async function start() {
+            let result = await fetch('http://localhost:3004/api/getresult',{
+                method:'GET',
+            });
+            let resultJson = await result.json();
+            resultJson['book'] = 'Блокировка';
+            for (const resultJsonKey in resultJson) {
+                document.querySelector(`.${resultJsonKey}`).innerHTML = resultJson[resultJsonKey];
+            }
+        }
+
+        async function addVoid(e) {
+            let result = await fetch('http://localhost:3004/api/setresult', {
+                method:'POST',
+                headers:{
+                    "Content-type":'application/json;charset=utf-8'
+                },
+                body:JSON.stringify(e.dataset)
+            });
+
+            let resultJson = await result.json();
+            resultJson['book'] = 'Блокировка';
+            for (const resultJsonKey in resultJson) {
+                document.querySelector(`.${resultJsonKey}`).innerHTML = resultJson[resultJsonKey];
+            }
+        }
+    </script>
+</body>
+</html>

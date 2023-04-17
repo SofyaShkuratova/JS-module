@@ -1,0 +1,66 @@
+@width: 13rem;
+@height: 3rem;
+@bord-rad: 2rem;
+
+h3 {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem+1.4rem;
+}
+
+.static {
+    width: @width;
+    height: @height;
+    border-radius: @bord-rad;
+    border: none;
+    background-color: #3772FF;
+    color:#E6E8E6;
+}
+
+.hover {
+    .static();
+    background-color: #FDCA40;
+    color:#080708;
+}
+
+.clicked {
+    .static();
+    background-color: #DF2935;
+    color:#080708;
+}
+
+.but {
+    .static();
+    &:hover {
+        .hover();
+    }
+    &:active {
+        .clicked();
+    }
+}
+
+.circle {
+    align-self: center;
+    margin-top: 2rem;
+    width: 20rem;
+    height: 20rem;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color:#FDCA40;
+
+    background-color: spin(#3772FF, 30);
+    border: none;
+
+    &:hover {
+        transform: rotate(30deg);
+        transition: all 3s;
+        background-color: darken(#3772FF, 10%);
+    }
+    &:active {
+        transform: rotate(-30deg);
+        transition: all 3s;
+        background-color: lighten(#3772FF, 10%);
+    }
+}

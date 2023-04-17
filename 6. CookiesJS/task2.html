@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Задание 2</title>
+</head>
+<body>
+    <div>
+<h1 class="name">Shkuratova Sofya</h1>
+    <img src=" " class="img" width="300px">
+    <h3 class="textobj"></h3>
+    <img src=" " class="imghobbi" width="300px">
+    </div>
+    
+    <script type="module">
+        import Cookie from "./js.cookie.mjs";
+
+        if (!Cookie.get('iam_sonau')) {
+            Cookie.set('iam_sonau', JSON.stringify({photo:"/img/me.png", date: Date.now()}), {expires:365})
+        }
+
+        let user = prompt('Как вас зовут?');
+        if (Cookie.get(user)) {
+            let userData = JSON.parse(Cookie.get(user));
+            Cookie.set(user, JSON.stringify({...userData, date:Date.now()}), {expires:365});
+            document.querySelector('.name').innerHTML = `Имя пользователя: ${user}`;
+            document.querySelector('.img').src = userData.photo;
+            let hobbiPhoto = '';
+            let text = '';
+            switch (new Date().getMonth() +1 ) {
+                case 12:
+                case 1:
+                case 2: hobbiPhoto = '/img/mountains.jpeg';
+                        text = 'Зима, хобби: горный поход';
+                    break;
+                case 3:
+                case 4:
+                case 5: hobbiPhoto = '/img/draw.jpg';
+                        text = "Весна, хобби: рисование";
+                    break;
+                case 6:
+                case 7:
+                case 8: hobbiPhoto = '/img/dog.jpg';
+                        text = "Лето, хобби: прогулка с собакой";
+                    break;
+                case 9:
+                case 10:
+                case 11: hobbiPhoto = '/img/3d.jpeg';
+                        text = "Осень, хобби: 3d моделирование";
+                    break;
+            }
+            document.querySelector
+            document.querySelector('.imghobbi').src = hobbiPhoto;
+            document.querySelector('.textobj').innerHTML = `Здравствуйте, ${user}! Вы посещали эту страницу ${(new Date(userData.date)).toDateString()} ${(new Date(userData.date)).toTimeString().slice(0,8)}. ${text}`;
+            // alert(`Здравствуйте, ${user}! Вы посещали эту страницу ${(new Date(userData.date)).toDateString()} ${(new Date(userData.date)).toTimeString().slice(0,8)}. ${text}`);
+        }
+    </script>
+</body>
+</html>
