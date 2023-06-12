@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration form</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+            width: 40%;
+            font-family: "Gill Sans", serif;
+            padding: 2rem;
+            background-color: darkseagreen;
+            color: darkslategrey;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+
+        }
+        label{
+            margin-top: 0.7rem;
+            margin-right: 1rem;
+        }
+        input {
+            padding: 1rem;
+            border: #fff;
+            border-radius: 2rem;
+        }
+        button {
+            margin-top: 2rem;
+            padding: 1rem;
+            font-family: "Gill Sans", serif;
+            border-radius: 3rem;
+            border: none;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #172929;
+        }
+
+    </style>
+</head>
+<body>
+<h1>Введите данные</h1>
+<form name="registerForm">
+    <label>Имя</label>
+    <input type="text" name="userName" />
+    <label>Возраст</label>
+    <input type="number" name="userAge" />
+
+    <label>Ваш комментарий</label>
+    <input type="text" name="comment" />
+    <button type="submit" id="submit">Отправить</button>
+</form>
+
+<script>
+
+    document.getElementById("submit").addEventListener("click", function (e) {
+        e.preventDefault();
+        // получаем данные формы
+        let registerForm = document.forms["registerForm"];
+        let userName = registerForm.elements["userName"].value;
+        let userAge = registerForm.elements["userAge"].value;
+        let comment = registerForm.elements["comment"].value;
+        // сериализуем данные в json
+        let user = JSON.stringify({userName: userName, userAge: userAge, comment: comment});
+        let request = new XMLHttpRequest();
+        // посылаем запрос на адрес "/user"
+        request.open("POST", "/user", true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.addEventListener("load", function () {
+            // получаем и парсим ответ сервера
+            let receivedUser = JSON.parse(request.response);
+            console.log(`${receivedUser.userName},  ${receivedUser.userAge}. Ваш комментирий: ${receivedUser.comment}`);
+            // alert(`${receivedUser.userName},  ${receivedUser.userAge}. Ваш комментирий: ${receivedUser.comment}`);
+            // document.body.innerHTML = `${receivedUser.userName}  ${receivedUser.userAge}`;   // смотрим ответ сервера
+        });
+        request.send(user);
+    });
+</script>
+</body>
+</html>

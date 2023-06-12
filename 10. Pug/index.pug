@@ -1,0 +1,31 @@
+doctype html
+html(lang='ru')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    link(rel='icon' type='image/x-icon' href='favicon.ico')
+
+    title Мой первый Pug-шаблон
+
+    link(rel='stylesheet' href='./styles/app.css')
+    style
+      include style.css
+
+  body
+    ul
+      each val, index in ['Главная', 'О нас', 'Блог']
+        a(href="#")
+          li= ' ' + val
+    div(class='container')
+      h1 Восстановление пароля
+      p 
+       |Укажите номер телефона, который вы использовали для регистрации. 
+       |Мы вышлем новый пароль в SMS.
+      label(for="number") Введите номер телефона
+      input(
+      type='phone'
+      name='password'
+      value='+375 (44)'
+      )
+      button Отправить СМС с паролем
+      p Еще не зарегестрированы? Зарегестрироваться
